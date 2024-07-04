@@ -17,7 +17,12 @@ class JobFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->jobTitle,
+            'salary' => fake()->randomElement(['$50,000 USD', '$90,000 USD', '150,000 USD', '250,000 USD',  '$500,000 USD']),
+            'location' => 'remote',
+            'schedule' => fake()->randomElement(['full-time', 'part-time', 'contract']),
+            'url' => fake()->url,
+            'featured' => false,
         ];
     }
 }
