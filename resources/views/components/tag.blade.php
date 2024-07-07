@@ -1,15 +1,13 @@
-@props(['size' => 'base'])
+@props(['tag', 'size' => 'base'])
 
 @php
 
     $classes = 'bg-white/10  rounded-xl  font-bold hover:bg-white/25 transion-colors duration-300';
     if ($size === 'base') {
-        $classes .= ' px-6 py-1 text-2xs ';
+        $classes .= ' px-5 py-1 text-sm';
     }
-
     if ($size === 'small') {
-        $classes .= ' px-2 py-2 text-xs ';
+        $classes .= ' px-3 py-1 text-2xs';
     }
 @endphp
-<a href="" class="{{ $classes }}">{{ $slot }}
-</a>
+<a href="/tags/{{ strtolower($tag->name) }}" class="{{ $classes }}">{{ $tag->name }}</a>

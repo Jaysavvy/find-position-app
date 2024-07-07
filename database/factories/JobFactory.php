@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Employer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class JobFactory extends Factory
             'schedule' => fake()->randomElement(['full-time', 'part-time', 'contract']),
             'url' => fake()->url,
             'featured' => false,
+            'employer_id' => Employer::factory(),
         ];
     }
 }
