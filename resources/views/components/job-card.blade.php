@@ -2,7 +2,7 @@
 
 <x-panel class="flex flex-col text-center">
 
-    <div class="self-start text-sm">Laracasts</div>
+    <div class="self-start text-sm">{{ $job->employer->name }}</div>
 
     <div class=" py-8 font-bold">
         <h3 class="group-hover:text-blue-600 text-xl font-bold transition-colors duration-300">{{ $job->title }}
@@ -17,7 +17,7 @@
 
         <div>
             @foreach ($job->tags as $tag)
-                <x-tag :$tag size="small">Frontend</x-tag>
+                <x-tag :$tag size="small"></x-tag>
             @endforeach
         </div>
 

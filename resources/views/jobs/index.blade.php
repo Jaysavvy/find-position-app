@@ -12,7 +12,7 @@
             <x-section-heading> Featured Jobs</x-section-heading>
 
             <div class="grid lg:grid-cols-3 gap-8 mt-6">
-                @foreach ($jobs as $job)
+                @foreach ($featuredJobs as $job)
                     <x-job-card :$job />
                 @endforeach
 
@@ -25,7 +25,7 @@
             </x-section-heading>
             <div class="mt-6 space-x-1">
                 @foreach ($tags as $tag)
-                    <x-tag :tag="$tag" size="base" />
+                    <x-tag :$tag />
                 @endforeach
 
 
