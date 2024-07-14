@@ -6,6 +6,9 @@ use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use App\Models\Job;
 use App\Models\Tag;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class JobController extends Controller
 {
@@ -14,11 +17,11 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::all()->groupBy('featured');
+        $jobs = Job::latest()->get()->groupBy('featured');
 
         return view('jobs.index', [
-            'featuredJobs' => $jobs[0],
-            'jobs' => $jobs[1],
+            'jobs' => $jobs[0],
+            'featuredJobs' => $jobs[1],
             'tags' => Tag::all(),
         ]);
     }
@@ -28,7 +31,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        //
+        return view('jobs.create');
     }
 
     /**
@@ -36,38 +39,27 @@ class JobController extends Controller
      */
     public function store(StoreJobRequest $request)
     {
-        //
-    }
+        $attributes = $request->validate([
+            'employer' => ['required', 'exists:employers'],
+            'title' => ['required'],
+            'Salary' => ['required'],
+            'location' => ['required'],
+            'schedule' => ['required', Rule::in(['full-time', 'part-time'])],
+            'url' => ['required', 'url'],
+            'tags' => ['required'],
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Job $job)
-    {
-        //
-    }
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Job $job)
-    {
-        //
-    }
+        $attributes = $request->has('featured');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateJobRequest $request, Job $job)
-    {
-        //
-    }
+        $job = Auth::user()->employer->jobs()->create(Arr::except($attributes, 'tags'));
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Job $job)
-    {
-        //
+        if ($attributes['tags'] ?? false) {
+            foreach (explode(',', $attributes['tags']) as $tag) {
+                $job->tag($tag);
+            } // laravel
+        }
+
+        return redirect('/');
     }
 }

@@ -7,6 +7,8 @@ use \Illuminate\Database\Eloquent\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Employer;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany as RelationsBelongsToMany;
 
 class Job extends Model
 {
@@ -19,12 +21,12 @@ class Job extends Model
         $this->tags()->attach($tag);
     }
 
-    public function tags()
+    public function tags(): RelationsBelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
 
-    public function employer()
+    public function employer(): BelongsTo
     {
         return $this->belongsTo(Employer
         ::class);
